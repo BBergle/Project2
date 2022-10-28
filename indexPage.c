@@ -41,11 +41,14 @@ void insert(struct Trie *head, char* str);
 
 int hasChildren(struct Trie* curr);
 
+const int bufferSize = 300000;
+
 int main(int argc, char** argv){
   /* TODO: write the (simple) main function
 
   /* argv[1] will be the URL to index, if argc > 1 */
-  char* buffer;
+  char* buffer = malloc(sizeof(char) * bufferSize);
+  //Testing indexPage with a hardcoded link
   indexPage("https://users.pfw.edu/chenz/testWeb/page_000001.html", buffer);
   printf("%s", buffer);
 
@@ -58,8 +61,6 @@ int main(int argc, char** argv){
 int indexPage(const char* url, char* buffer){
     
     getText(url, buffer, 300000);
-
-
 
 }
 
