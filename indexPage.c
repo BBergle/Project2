@@ -63,7 +63,7 @@ int indexPage(const char* url, char* buffer){
    int returnValue = getText(url, buffer, bufferSize);
 
 int i,j;
-//Clean up the buffer by removing numbers and the leading b 
+//Clean up the buffer by removing numbers, punctuation and the leading b
 for (i = 0; buffer[i] != '\0'; ++i) {
      while ((buffer[i] == 'b' && buffer[i+1] == '\'') || buffer[i] == '!' || buffer[i] == '.' || buffer[i] == ',' || buffer[i] == '?' 
      || buffer[i] == '\'' || (buffer[i] >= '0' && buffer[i] <= '9')) {
@@ -83,7 +83,7 @@ for(i = 0; buffer[i] != '\0'; i++){
 
 
 
-//Seperate all words at white spaces and all punctuation
+//Seperate all words at white spaces 
  char* newBuffer;
     newBuffer= strtok(buffer, " \n,.-()");
     while (newBuffer!= NULL)
