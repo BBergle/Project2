@@ -26,10 +26,10 @@ struct Trie
 /* TODO: change this return type */
 int indexPage(const char* url, char* buffer);
 
-int addWordOccurrence(const char* word, const int wordLength
+int addWordOccurrence(const char* word, const int wordLength,struct Trie* root, char* str
 		       /* TODO: other parameters you need */);
 
-void printTrieContents(/* TODO: any parameters you need */);
+void printTrieContents(/* TODO: any parameters you need */struct Trie* root);
 
 int freeTrieMemory(struct Trie **curr, char* str);
 
@@ -51,6 +51,7 @@ int main(int argc, char** argv){
   //Testing indexPage with a hardcoded link
   indexPage("https://users.pfw.edu/chenz/testWeb/page_000001.html", buffer);
   printf("%s", buffer);
+    //Testing the 
 
   return 0;
 }
@@ -64,12 +65,44 @@ int indexPage(const char* url, char* buffer){
 
 }
 
-int addWordOccurrence(const char* word, const int wordLength
+int addWordOccurrence(const char* word, const int wordLength, struct Trie* root, char* str
 		       /* TODO: other parameters you need */)
-{}
+{
+    if(word == NULL||wordLength<1){
+        return 0;
+    }
+     // start from the root node
+    struct Trie* curr = root;
+    for (int i=0;i<wordLength;i++)
+    {
+        // create a new node if the path doesn't exist
+        if (curr->character[*str - 'a'] == NULL) {
+            curr->character[*str - 'a'] = getNewTrieNode();
+        }
+ 
+        // go to the next node
+        curr = curr->character[*str - 'a'];
+        curr->count = curr->count++;
+        // move to the next character
+        str++;
+    }
+ 
+    // mark the current node as a leaf
+    curr->isLeaf = 1;
+    return 1;
+}
 
-void printTrieContents(/* TODO: any parameters you need */)
-{}
+void printTrieContents(/* TODO: any parameters you need */struct Trie* root)
+{
+    // Prints the nodes of the trie
+    if (!root)
+        return;
+    struct Trie* temp = root;
+    printf("%c -> ", temp->count);
+    for (int i=0; i<CHAR_SIZE; i++) {
+        printTrieContents(temp->character[i]); 
+    }
+}
 
 // Returns 1 if a given Trie node has any children
 int hasChildren(struct Trie* curr)
