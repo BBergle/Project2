@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
 /* TODO: structure definitions */
 #define CHAR_SIZE 26
@@ -50,9 +51,7 @@ int main(int argc, char** argv){
   char* buffer = malloc(sizeof(char) * bufferSize);
   //Testing indexPage with a hardcoded link
   indexPage("https://users.pfw.edu/chenz/testWeb/page_000001.html", buffer);
-  printf("%s", buffer);
-    //Testing the 
-
+  
   return 0;
 }
 
@@ -60,10 +59,43 @@ int main(int argc, char** argv){
 
 /* TODO: change this return type */
 int indexPage(const char* url, char* buffer){
-    
-    getText(url, buffer, 300000);
+ 
+   int returnValue = getText(url, buffer, bufferSize);
 
+int i,j;
+//Clean up the buffer by removing numbers and the leading b 
+for (i = 0; buffer[i] != '\0'; ++i) {
+     while ((buffer[i] == 'b' && buffer[i+1] == '\'') || buffer[i] == '!' || buffer[i] == '.' || buffer[i] == ',' || buffer[i] == '?' 
+     || buffer[i] == '\'' || (buffer[i] >= '0' && buffer[i] <= '9')) {
+         for (j = i; buffer[j] != '\0'; ++j) {
+            buffer[j] = buffer[j + 1];
+         }
+         buffer[j] = '\0';
+      }
+   }
+
+//make everything lowercase
+for(i = 0; buffer[i] != '\0'; i++){
+   if(isupper(buffer[i])){
+      buffer[i] = tolower(buffer[i]);
+   }
 }
+
+
+
+//Seperate all words at white spaces and all punctuation
+ char* newBuffer;
+    newBuffer= strtok(buffer, " \n,.-()");
+    while (newBuffer!= NULL)
+    {
+        printf("%s\n", newBuffer);
+        newBuffer= strtok(NULL, " \n,.-()");
+    }
+
+
+
+return returnValue;
+}// End of indexPage
 
 int addWordOccurrence(const char* word, const int wordLength, struct Trie* root, char* str
 		       /* TODO: other parameters you need */)

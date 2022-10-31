@@ -5,7 +5,7 @@
 
 
 const int bufferSize = 300000;
-const char* url = "https://users.pfw.edu/chenz/testWeb/page_000001.html";
+const char* url = "https://sjmulder.nl/en/textonly.html";
 
 
 int getText(const char* srcAddr, char* buffer, const int bufSize);
@@ -28,12 +28,11 @@ void indexPage(const char* url, char* buffer){
 
    int returnValue = getText(url, buffer, bufferSize);
 
-    //Clean up the buffer so we can add all words in the trie
-
-    //Remove all numbers
-    int i,j;
-     for (i = 0; buffer[i] != '\0'; ++i) {
-     while (buffer[i] >= '0' && buffer[i] <= '9') {
+int i,j;
+//Clean up the buffer by removing numbers and the leading b 
+for (i = 0; buffer[i] != '\0'; ++i) {
+     while ((buffer[i] == 'b' && buffer[i+1] == '\'') || buffer[i] == '!' || buffer[i] == '.' || buffer[i] == ',' || buffer[i] == '?' 
+     || buffer[i] == '\'' || (buffer[i] >= '0' && buffer[i] <= '9')) {
          for (j = i; buffer[j] != '\0'; ++j) {
             buffer[j] = buffer[j + 1];
          }
@@ -41,33 +40,28 @@ void indexPage(const char* url, char* buffer){
       }
    }
 
-    //Remove all single quotes
-    for (int i = 0; buffer[i] != '\0'; i++){
-
-            
-
-
-    }
-
-
-
-
-/*
-//Seperate all words at white spaces
- char* newBuffer;
-    newBuffer= strtok(buffer, " ,.-");
-    while (newBuffer!= NULL)
-    {
-        printf("%s\n", newBuffer);
-        newBuffer= strtok(NULL, " ,.-");
-    }
-
-*/
-   
-
+//make everything lowercase
+for(i = 0; buffer[i] != '\0'; i++){
+   if(isupper(buffer[i])){
+      buffer[i] = tolower(buffer[i]);
+   }
 }
 
 
+
+//Seperate all words at white spaces and all punctuation
+ char* newBuffer;
+    newBuffer= strtok(buffer, " \n,.-()");
+    while (newBuffer!= NULL)
+    {
+        printf("%s\n", newBuffer);
+        newBuffer= strtok(NULL, " \n,.-()");
+    }
+
+
+
+
+}// End of indexPage
 
 /* You should not need to modify this function */
 int getText(const char* srcAddr, char* buffer, const int bufSize){
