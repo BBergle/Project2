@@ -8,9 +8,53 @@
 struct Trie
 {
     int isLeaf;             // 1 when the node is a leaf node
+    int count;
     struct Trie* character[CHAR_SIZE];
 };
  
+
+
+
+
+void printTrieContents(/* TODO: any parameters you need */struct Trie* root);
+
+int freeTrieMemory(struct Trie **curr, char* str);
+
+struct Trie* getNewTrieNode();
+
+void insert(struct Trie *head, char* str);
+
+int hasChildren(struct Trie* curr);
+
+const int bufferSize = 300000;
+
+char* test = "test";
+
+
+
+int main(){
+
+
+struct Trie* head = getNewTrieNode();
+insert(head, test);
+printTrieContents(head);
+
+
+
+}
+
+void printTrieContents(/* TODO: any parameters you need */struct Trie* root)
+{
+    // Prints the nodes of the trie
+    if (!root)
+        return;
+    struct Trie* temp = root;
+    printf("%c -> ", temp->character);
+    for (int i=0; i<CHAR_SIZE; i++) {
+        printTrieContents(temp->character[i]); 
+    }
+}
+
 // Function that returns a new Trie node
 struct Trie* getNewTrieNode()
 {

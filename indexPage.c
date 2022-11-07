@@ -42,7 +42,11 @@ void insert(struct Trie *head, char* str);
 
 int hasChildren(struct Trie* curr);
 
+void fillTrie(struct Trie* head, char* buffer);
+
 const int bufferSize = 300000;
+
+char* test = "test";
 
 int main(int argc, char** argv){
   /* TODO: write the (simple) main function
@@ -50,7 +54,10 @@ int main(int argc, char** argv){
   /* argv[1] will be the URL to index, if argc > 1 */
   char* buffer = malloc(sizeof(char) * bufferSize);
   //Testing indexPage with a hardcoded link
+  struct Trie *head = getNewTrieNode();
   indexPage("https://users.pfw.edu/chenz/testWeb/page_000001.html", buffer);
+  insert(head, test);
+  printTrieContents(head);
   
   return 0;
 }
@@ -88,7 +95,7 @@ for(i = 0; buffer[i] != '\0'; i++){
     newBuffer= strtok(buffer, " \n,.-()");
     while (newBuffer!= NULL)
     {
-        printf("%s\n", newBuffer);
+       // printf("%s\n", newBuffer);
         newBuffer= strtok(NULL, " \n,.-()");
     }
 
