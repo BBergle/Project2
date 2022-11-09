@@ -25,52 +25,35 @@ struct Trie
    or success (typically zero return value) */
 
 /* TODO: change this return type */
-int indexPage(const char* url, char* buffer);
+void indexPage(const char* url, char* buffer);//Benny Bergle
 
-int addWordOccurrence(const char* word, const int wordLength,struct Trie* root, char* str
-		       /* TODO: other parameters you need */);
+int addWordOccurrence(const char* word, const int wordLength,struct Trie* root, char* str);
 
-void printTrieContents(/* TODO: any parameters you need */struct Trie* root);
+void printTrieContents(struct Trie* root);
 
-int freeTrieMemory(struct Trie **curr, char* str);
+int freeTrieMemory(struct Trie **curr, char* str);//Benny Bergle
 
 int getText(const char* srcAddr, char* buffer, const int bufSize);
 
-struct Trie* getNewTrieNode();
+struct Trie* getNewTrieNode();//Benny Bergle
 
-void insert(struct Trie *head, char* str);
+void insert(struct Trie *head, char* str);//Benny Bergle
 
-int hasChildren(struct Trie* curr);
-
-void fillTrie(struct Trie* head, char* buffer);
+int hasChildren(struct Trie* curr);//Benny Bergle
 
 const int bufferSize = 300000;
 
 char* test = "test";
 
-int main(int argc, char** argv){
-  /* TODO: write the (simple) main function
-
-  /* argv[1] will be the URL to index, if argc > 1 */
-  char* buffer = malloc(sizeof(char) * bufferSize);
-  //Testing indexPage with a hardcoded link
-  struct Trie *head = getNewTrieNode();
-  indexPage("https://users.pfw.edu/chenz/testWeb/page_000001.html", buffer);
-  insert(head, test);
-  printTrieContents(head);
-  
-  return 0;
-}
-
 /* TODO: define the functions corresponding to the above prototypes */
 
 /* TODO: change this return type */
-int indexPage(const char* url, char* buffer){
- 
+void indexPage(const char* url, char* buffer){
+
    int returnValue = getText(url, buffer, bufferSize);
 
 int i,j;
-//Clean up the buffer by removing numbers, punctuation and the leading b
+//Clean up the buffer by removing numbers and the leading b 
 for (i = 0; buffer[i] != '\0'; ++i) {
      while ((buffer[i] == 'b' && buffer[i+1] == '\'') || buffer[i] == '!' || buffer[i] == '.' || buffer[i] == ',' || buffer[i] == '?' 
      || buffer[i] == '\'' || (buffer[i] >= '0' && buffer[i] <= '9')) {
@@ -90,19 +73,17 @@ for(i = 0; buffer[i] != '\0'; i++){
 
 
 
-//Seperate all words at white spaces 
+//Seperate all words at white spaces and all punctuation
  char* newBuffer;
     newBuffer= strtok(buffer, " \n,.-()");
     while (newBuffer!= NULL)
     {
-       // printf("%s\n", newBuffer);
+        printf("%s\n", newBuffer);
         newBuffer= strtok(NULL, " \n,.-()");
     }
 
 
-
-return returnValue;
-}// End of indexPage
+}
 
 int addWordOccurrence(const char* word, const int wordLength, struct Trie* root, char* str
 		       /* TODO: other parameters you need */)
@@ -245,36 +226,6 @@ void insert(struct Trie *head, char* str)
     curr->isLeaf = 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* You should not need to modify this function */
 int getText(const char* srcAddr, char* buffer, const int bufSize){
   FILE *pipe;
@@ -295,4 +246,23 @@ int getText(const char* srcAddr, char* buffer, const int bufSize){
   pclose(pipe);
 
   return bytesRead;
+}
+
+
+int main(int argc, char** argv){
+  /* TODO: write the (simple) main function
+
+   argv[1] will be the URL to index, if argc > 1 */
+char *url;
+
+url = argv[1];
+    printf("%s", url);
+  char* buffer = malloc(sizeof(char) * bufferSize);
+  //Testing indexPage with a hardcoded link
+  struct Trie *head = getNewTrieNode();
+  indexPage(url, buffer);
+  //printTrieContents(head);
+  
+  
+  
 }
