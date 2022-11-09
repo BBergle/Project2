@@ -250,18 +250,15 @@ int getText(const char* srcAddr, char* buffer, const int bufSize){
 
 
 int main(int argc, char** argv){
-  /* TODO: write the (simple) main function
-
-   argv[1] will be the URL to index, if argc > 1 */
-char *url;
-
-url = argv[1];
+    char *url;
+    url = argv[1];
     printf("%s", url);
-  char* buffer = malloc(sizeof(char) * bufferSize);
-  //Testing indexPage with a hardcoded link
-  struct Trie *head = getNewTrieNode();
-  indexPage(url, buffer);
-  //printTrieContents(head);
+    char* buffer = malloc(sizeof(char) * bufferSize);
+    struct Trie *head = getNewTrieNode();
+    indexPage(url, buffer);
+    insert(head, buffer);
+    printTrieContents(head);
+    freeTrieMemory(&head, buffer);
   
   
   
