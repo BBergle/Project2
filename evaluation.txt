@@ -1,0 +1,9 @@
+Benny Bergle Hours: 9
+Benny Bergle Functions:
+	indexPage
+	freeTrieMemory
+	insert
+	hasChildren
+	main
+Max Claypool Hours:
+Max Claypool Functions

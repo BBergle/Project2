@@ -259,6 +259,7 @@ int main(int argc, char** argv){
     insert(head, buffer);
     printTrieContents(head);
     freeTrieMemory(&head, buffer);
+    free(buffer);
   
   
   
