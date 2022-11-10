@@ -5,5 +5,10 @@ Benny Bergle Functions:
 	insert
 	hasChildren
 	main
-Max Claypool Hours:
-Max Claypool Functions
+Max Claypool Hours:8
+Max Claypool Functions:
+	addWordOccurrence
+	printTrieContents
+	
+	
+	
