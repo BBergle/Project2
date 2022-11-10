@@ -271,6 +271,7 @@ int main(int argc, char** argv){
     addWordOccurrence(buffer, bufferSize, head);
     printTrieContents(head, buffer, 0);
     freeTrieMemory(&head, buffer);
+    free(buffer);
   
   
   
