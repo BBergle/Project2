@@ -250,8 +250,13 @@ int getText(const char* srcAddr, char* buffer, const int bufSize){
 
 
 int main(int argc, char** argv){
-    char *url;
-    url = argv[1];
+
+    if(argc < 2){
+        fprintf(stderr, "Please enter the correct ammount of args");
+        return -1;
+    }
+
+    char *url = argv[1];
     printf("%s", url);
     char* buffer = malloc(sizeof(char) * bufferSize);
     struct Trie *head = getNewTrieNode();
@@ -260,7 +265,5 @@ int main(int argc, char** argv){
     printTrieContents(head);
     freeTrieMemory(&head, buffer);
     free(buffer);
-  
-  
   
 }
