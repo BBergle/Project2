@@ -27,9 +27,9 @@ struct Trie
 /* TODO: change this return type */
 void indexPage(const char* url, char* buffer);//Benny Bergle
 
-int addWordOccurrence(const char* word, const int wordLength,struct Trie* root, char* str);
+int addWordOccurrence(const char* word, const int wordLength,struct Trie* root);//Max Claypool
 
-void printTrieContents(struct Trie* root);
+void printTrieContents(struct Trie* root, char* str);//Max Claypool
 
 int freeTrieMemory(struct Trie **curr, char* str);//Benny Bergle
 
@@ -85,43 +85,74 @@ for(i = 0; buffer[i] != '\0'; i++){
 
 }
 
-int addWordOccurrence(const char* word, const int wordLength, struct Trie* root, char* str
+int addWordOccurrence(const char* word, const int wordLength, struct Trie* root
 		       /* TODO: other parameters you need */)
 {
-    if(word == NULL||wordLength<1){
-        return 0;
-    }
+        //index of the constant word.
+    int idx;
      // start from the root node
     struct Trie* curr = root;
+    //Move from each letter in the word
     for (int i=0;i<wordLength;i++)
     {
-        // create a new node if the path doesn't exist
-        if (curr->character[*str - 'a'] == NULL) {
-            curr->character[*str - 'a'] = getNewTrieNode();
+        //Set the index equal to the word.
+        idx = (word[i]);
+        //set the index to a number value by subtracting character a.
+        //idx-'a';
+        //check if the value is inside the range of the alphabet.
+        if(idx >= 0 && idx <= 25){
+            //if the next is null, then make space for it.
+            if(curr->character[idx]==NULL){
+                //allocate memory .
+                curr->character[idx] = malloc(sizeof(curr));
+                
+            }
+            //Make a new node.
+            curr->character[idx]=getNewTrieNode();
+            //make a new node at the index.
+            curr = curr->character[idx];
+            //increase the count of the new character.
+            curr->count = curr->count++;
+
         }
- 
-        // go to the next node
-        curr = curr->character[*str - 'a'];
-        curr->count = curr->count++;
-        // move to the next character
-        str++;
     }
  
     // mark the current node as a leaf
     curr->isLeaf = 1;
+    //return 1 for a successful run of the function.
     return 1;
 }
 
-void printTrieContents(/* TODO: any parameters you need */struct Trie* root)
+void printTrieContents(/* TODO: any parameters you need */
+struct Trie* root, char* str)
 {
-    // Prints the nodes of the trie
-    if (!root)
-        return;
-    struct Trie* temp = root;
-    printf("%c -> ", temp->count);
-    for (int i=0; i<CHAR_SIZE; i++) {
-        printTrieContents(temp->character[i]); 
-    }
+        // Prints the nodes of the trie
+    //string to hold all of the letters of each trie.
+        str = malloc(sizeof(char)*(CHAR_SIZE)+sizeof(str));
+        
+        //if the root is nonexistant, continue on from where the function was called.
+        //and print new line.
+
+        if (!root){
+        printf("\n");
+            return;
+        }
+        //make a temporary trie to crawl through nodes.
+        struct Trie* temp = root;
+        for(char i=0;i<CHAR_SIZE;i++){
+            //if there is something in the location, then add the letter to the string,
+            //then run a different instance of the function with the character and part of the string.
+            if(temp->character[i]!=NULL){
+                str += (i+'a');
+                printTrieContents(temp->character[i],str);
+            }
+        }
+        //check if the letter is a leaf, then print if so.
+        if(temp->isLeaf==1){
+            temp->count=temp->count++;
+
+   //         printf("%s:%s",str,temp->count);
+        }
 }
 
 // Returns 1 if a given Trie node has any children
@@ -217,7 +248,7 @@ void insert(struct Trie *head, char* str)
  
         // go to the next node
         curr = curr->character[*str - 'a'];
- 
+        curr->count=curr->count++;
         // move to the next character
         str++;
     }
@@ -262,8 +293,12 @@ int main(int argc, char** argv){
     struct Trie *head = getNewTrieNode();
     indexPage(url, buffer);
     insert(head, buffer);
-    printTrieContents(head);
+   // printTrieContents(head,"");
     freeTrieMemory(&head, buffer);
     free(buffer);
+    //Not finished and will not work with runTestCases
+    //Prints buffer contents if executed like ./indexPage "https://users.pfw.edu/chenz/testWeb/page_000001.html"
+    
+  
   
 }
